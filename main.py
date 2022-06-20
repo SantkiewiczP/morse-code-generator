@@ -17,41 +17,45 @@ morse_dict = {'A': '.-', 'B': '-...',
                    '(': '-.--.', ')': '-.--.-', ' ': '/', '': ''}
 
 
-def encrypt(message):
-    morse_code = ""
+def encode(message):
+    message = message.upper()
+    encoded = ""
     for char in message:
-        morse_code += morse_dict[char] + " "
-    print(f"Your message in Morse Code: {morse_code}")
+        if char in morse_dict:
+            encoded += morse_dict[char] + " "
+    return encoded
 
 
 def decode(message):
-    decoded_text = ""
+    decoded = ""
     cipher = message.split(" ")
     for char in cipher:
         key_list = list(morse_dict.keys())
         value_list = list(morse_dict.values())
-        position = value_list.index(char)
+        try:
+            position = value_list.index(char)
+        except ValueError:
+            return ""
         letter = key_list[position]
-        decoded_text += letter
-    print(f"Your message translated to: {decoded_text}")
+        decoded += letter
+    return decoded
 
 
 print(logo)
 print("Welcome to Morse Code Converter!")
 
-while True:
-    choice = input("Please type 'encode' to encrypt a message into Morse Code\n"
-                   "Please type 'decode' to decode Morse Code into plain text.\n")
-    if choice == 'encode':
-        text = input("Type your message: ").upper()
-        encrypt(text)
-    elif choice == 'decode':
-        text = input("Type your message: ").upper()
-        decode(text)
-    else:
+if __name__ == "__main__":
+    while True:
         choice = input("Please type 'encode' to encrypt a message into Morse Code\n"
-                       "Please type 'decode' to decode Morse Code into plain text. ")
-
-
-
-
+                       "Please type 'decode' to decode Morse Code into plain text.\n")
+        if choice == 'encode':
+            text = input("Type your message: ")
+            morse_code = encode(text)
+            print(f"Your message in Morse Code: {morse_code}")
+        elif choice == 'decode':
+            text = input("Type your message: ")
+            decoded_text = decode(text)
+            print(f"Your message translated to: {decoded_text}")
+        else:
+            choice = input("Please type 'encode' to encrypt a message into Morse Code\n"
+                           "Please type 'decode' to decode Morse Code into plain text. ")
